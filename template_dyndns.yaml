@@ -1,6 +1,6 @@
 zabbix_export:
   version: '6.0'
-  date: '2022-07-05T19:47:25Z'
+  date: '2022-07-05T22:12:57Z'
   groups:
     -
       uuid: 36bff6c29af64692839d077febfc7079
@@ -17,13 +17,13 @@ zabbix_export:
         -
           uuid: 27de4d89de4b47f78eff9190f4555bb1
           name: 'Domain IPv4 address'
-          key: Domain.IPv4.address
+          key: 'Domain.IPv4.address["{$DOMAIN.NAME}"]'
           trends: '0'
           value_type: TEXT
         -
           uuid: d85dc91897424242adccda6d14d01798
           name: 'Domain IPv6 address'
-          key: Domain.IPv6.address
+          key: 'Domain.IPv6.address["{$DOMAIN.NAME}"]'
           trends: '0'
           value_type: TEXT
         -
@@ -42,16 +42,20 @@ zabbix_export:
           delay: '0'
           trends: '0'
           value_type: TEXT
+      macros:
+        -
+          macro: '{$DOMAIN.NAME}'
+          value: example.com
   triggers:
     -
       uuid: d5824482db5447cd94aae5f0044c4e24
-      expression: '(last(/DynDNS/WAN.IPv4.address,#10)<>last(/DynDNS/Domain.IPv4.address)) and (last(/DynDNS/WAN.IPv4.address)<>last(/DynDNS/Domain.IPv4.address))'
+      expression: '(last(/DynDNS/WAN.IPv4.address,#10)<>last(/DynDNS/Domain.IPv4.address["{$DOMAIN.NAME}"])) and (last(/DynDNS/WAN.IPv4.address)<>last(/DynDNS/Domain.IPv4.address["{$DOMAIN.NAME}"]))'
       name: 'IPv4 deprecated (New IP: {ITEM.VALUE3})'
       priority: HIGH
       manual_close: 'YES'
     -
       uuid: 7316bda707d642bcad950ae924690350
-      expression: '(last(/DynDNS/WAN.IPv6.address,#10)<>last(/DynDNS/Domain.IPv6.address)) and (last(/DynDNS/WAN.IPv6.address)<>last(/DynDNS/Domain.IPv6.address))'
+      expression: '(last(/DynDNS/WAN.IPv6.address,#10)<>last(/DynDNS/Domain.IPv6.address["{$DOMAIN.NAME}"])) and (last(/DynDNS/WAN.IPv6.address)<>last(/DynDNS/Domain.IPv6.address["{$DOMAIN.NAME}"]))'
       name: 'IPv6 deprecated (New IP: {ITEM.VALUE3})'
       priority: HIGH
       manual_close: 'YES'
