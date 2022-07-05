@@ -1,0 +1,57 @@
+zabbix_export:
+  version: '6.0'
+  date: '2022-07-05T19:47:25Z'
+  groups:
+    -
+      uuid: 36bff6c29af64692839d077febfc7079
+      name: 'Templates/Network devices'
+  templates:
+    -
+      uuid: 21d50932e1ac4e27aee83c5394395165
+      template: DynDNS
+      name: DynDNS
+      groups:
+        -
+          name: 'Templates/Network devices'
+      items:
+        -
+          uuid: 27de4d89de4b47f78eff9190f4555bb1
+          name: 'Domain IPv4 address'
+          key: Domain.IPv4.address
+          trends: '0'
+          value_type: TEXT
+        -
+          uuid: d85dc91897424242adccda6d14d01798
+          name: 'Domain IPv6 address'
+          key: Domain.IPv6.address
+          trends: '0'
+          value_type: TEXT
+        -
+          uuid: 3a04860684c24f56b9e687db337144f7
+          name: 'WAN IPv4 address'
+          type: TRAP
+          key: WAN.IPv4.address
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+        -
+          uuid: 5e9b74a5edbb49a49e781c4088af778c
+          name: 'WAN IPv6 address'
+          type: TRAP
+          key: WAN.IPv6.address
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+  triggers:
+    -
+      uuid: d5824482db5447cd94aae5f0044c4e24
+      expression: '(last(/DynDNS/WAN.IPv4.address,#10)<>last(/DynDNS/Domain.IPv4.address)) and (last(/DynDNS/WAN.IPv4.address)<>last(/DynDNS/Domain.IPv4.address))'
+      name: 'IPv4 deprecated (New IP: {ITEM.VALUE3})'
+      priority: HIGH
+      manual_close: 'YES'
+    -
+      uuid: 7316bda707d642bcad950ae924690350
+      expression: '(last(/DynDNS/WAN.IPv6.address,#10)<>last(/DynDNS/Domain.IPv6.address)) and (last(/DynDNS/WAN.IPv6.address)<>last(/DynDNS/Domain.IPv6.address))'
+      name: 'IPv6 deprecated (New IP: {ITEM.VALUE3})'
+      priority: HIGH
+      manual_close: 'YES'
