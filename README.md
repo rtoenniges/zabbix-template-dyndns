@@ -9,10 +9,10 @@ Zabbix template to check dynamic dns by monitor WAN and domain IP
 - domain_ipv6.conf
  
 /etc/zabbix
-- send_ip.sh
+- send_public_ip.sh
  
 crontab -e
 ```console
 # Send public IP to Zabbix (every minute)
-* * * * * /etc/zabbix/send_ip.sh
+* * * * * /etc/zabbix/send_public_ip.sh
 ```
